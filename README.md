@@ -1,34 +1,64 @@
-# Lavalink Server
+<div align="center">
+  <h1>Lavalink Setup</h1>
+  <p>A ready-to-run Lavalink 4 server with configured sources and plugins.</p>
+  <p>
+    <a href="https://github.com/itsfizys/Lavalink-Setup">Repository</a>
+    &nbsp;|&nbsp;
+    <a href="https://github.com/lavalink-devs/Lavalink">Lavalink</a>
+    &nbsp;|&nbsp;
+    <a href="https://github.com/lavalink-devs/youtube-source">YouTube Source</a>
+  </p>
+</div>
 
-This project contains a Lavalink 4 server with YouTube, LavaSrc, LavaSearch,
-and SlugYZeon plugins configured in `application.yml`.
+<hr>
 
-## Requirements
+<h2 id="overview">Overview</h2>
 
-- Java 17 or newer
-- A Lavalink client or Discord bot that connects to this server
-- Network access to the configured port
+This repository contains a Lavalink 4 server with YouTube, LavaSrc,
+LavaSearch, and SlugYZeon plugins configured in
+[`application.yml`](application.yml).
 
-The included JAR is Lavalink Server 4.2.1 and is built for Java 17.
+<table>
+  <tr>
+    <td><strong>Server</strong></td>
+    <td>Lavalink 4.2.1</td>
+  </tr>
+  <tr>
+    <td><strong>Java</strong></td>
+    <td>17 or newer</td>
+  </tr>
+  <tr>
+    <td><strong>Port</strong></td>
+    <td><code>80</code></td>
+  </tr>
+  <tr>
+    <td><strong>Configuration</strong></td>
+    <td><code>application.yml</code></td>
+  </tr>
+</table>
 
-## Start Lavalink
+<hr>
 
-Keep `Lavalink.jar` and `application.yml` in the same directory, then run:
+<h2 id="quick-start">Quick start</h2>
+
+<ol>
+  <li>Install Java 17 or newer.</li>
+  <li>Keep <code>Lavalink.jar</code> and <code>application.yml</code> together.</li>
+  <li>Set a private password under <code>lavalink.server.password</code>.</li>
+  <li>Start Lavalink.</li>
+</ol>
 
 ```bash
 java -jar Lavalink.jar
 ```
 
 Lavalink reads `application.yml` automatically from the current directory.
-The configured server listens on port `80`.
+Before connecting a client, configure it with the same Lavalink password.
 
-Before connecting a client, set the same password in the client that is
-configured under `lavalink.server.password`.
+<details>
+<summary><strong>First-time configuration</strong></summary>
 
-## First-time setup
-
-The most important values are near the relevant sections in
-`application.yml`:
+The main values to configure are:
 
 ```yaml
 server:
@@ -48,14 +78,18 @@ plugins:
 Change the password before exposing the server publicly. Do not commit
 personal OAuth tokens or production credentials to the repository.
 
-## YouTube OAuth setup
+</details>
 
-The configured YouTube plugin can use OAuth to make requests appear more like
-normal account traffic. This is not guaranteed to prevent YouTube rate limits
-or account action. Use a separate burner account, not a primary Google
-account, and avoid high-traffic usage.
+<hr>
 
-The current configuration starts with OAuth initialization enabled:
+<h2 id="youtube-oauth">YouTube OAuth</h2>
+
+The YouTube plugin can use OAuth to make requests appear more like normal
+account traffic. This is not guaranteed to prevent YouTube rate limits or
+account action. Use a separate burner account, not a primary Google account,
+and avoid high-traffic usage.
+
+The current configuration is ready for the first OAuth flow:
 
 ```yaml
 plugins:
@@ -67,22 +101,20 @@ plugins:
       skipInitialization: false
 ```
 
-Use this process the first time:
+<h3>First-time OAuth flow</h3>
 
-1. Leave `refreshToken` empty.
-2. Set `skipInitialization: false`.
-3. Start Lavalink with `java -jar Lavalink.jar`.
-4. Watch the console for the YouTube OAuth instructions.
-5. Open the official URL shown by the console and complete the verification
-   using the burner account.
-6. After the OAuth flow completes, copy the refresh token printed in the
-   Lavalink console.
-7. Stop Lavalink.
-8. Paste that refresh token into `plugins.youtube.oauth.refreshToken`.
-9. Set `skipInitialization: true`.
-10. Start Lavalink again.
-
-Example after setup:
+<ol>
+  <li>Leave <code>refreshToken</code> empty.</li>
+  <li>Set <code>skipInitialization: false</code>.</li>
+  <li>Start Lavalink with <code>java -jar Lavalink.jar</code>.</li>
+  <li>Watch the console for the YouTube OAuth instructions.</li>
+  <li>Open the official URL shown by the console and complete verification using the burner account.</li>
+  <li>Copy the refresh token printed in the Lavalink console.</li>
+  <li>Stop Lavalink.</li>
+  <li>Paste the token into <code>plugins.youtube.oauth.refreshToken</code>.</li>
+  <li>Set <code>skipInitialization: true</code>.</li>
+  <li>Start Lavalink again.</li>
+</ol>
 
 ```yaml
 oauth:
@@ -91,22 +123,23 @@ oauth:
   skipInitialization: true
 ```
 
-The value printed by the console is a refresh token. Do not confuse it with
-an OAuth access token. Access tokens are short-lived and can be passed by a
-client through track `userData`; the persistent token used by this
-configuration is `refreshToken`.
+<blockquote>
+  The console provides a <strong>refresh token</strong>, not a short-lived
+  access token. This configuration uses <code>refreshToken</code>.
+</blockquote>
 
 If no token is available yet, keep `refreshToken` empty and use
-`skipInitialization: false` while completing the OAuth flow. The YouTube
-plugin documentation notes that the token is printed only after the flow
-successfully completes and that the related logger may need to be set to
-`INFO`. This configuration already sets that logger to `INFO`.
+`skipInitialization: false` while completing the OAuth flow. The related
+YouTube OAuth logger is already set to `INFO`.
 
-## Configured sources
+<hr>
 
-The following source settings are enabled in the current configuration.
+<h2 id="sources">Configured sources</h2>
 
-### Built-in Lavalink sources
+The tables below reflect the current values in `application.yml`.
+
+<details open>
+<summary><strong>Built-in Lavalink sources</strong></summary>
 
 | Source | Status | Notes |
 | --- | --- | --- |
@@ -119,7 +152,10 @@ The following source settings are enabled in the current configuration.
 | Vimeo | Enabled | Direct source |
 | YouTube built-in source | Disabled | The YouTube plugin is used instead |
 
-### SlugYZeon sources
+</details>
+
+<details>
+<summary><strong>SlugYZeon sources</strong></summary>
 
 | Source | Status |
 | --- | --- |
@@ -131,7 +167,10 @@ The following source settings are enabled in the current configuration.
 SlugYZeon also defines YouTube search providers for ISRC and query-based
 lookups.
 
-### LavaSrc sources
+</details>
+
+<details>
+<summary><strong>LavaSrc sources</strong></summary>
 
 | Source | Status |
 | --- | --- |
@@ -147,7 +186,10 @@ may require a separate playable source for actual audio playback. Enable a
 source only after checking the plugin documentation and its credential
 requirements.
 
-### LavaSearch indexes
+</details>
+
+<details>
+<summary><strong>LavaSearch indexes</strong></summary>
 
 LavaSearch is configured to index:
 
@@ -157,7 +199,11 @@ LavaSearch is configured to index:
 LavaSearch provides search functionality; it is not itself a replacement for
 every source's playback implementation.
 
-## Installed plugins and credits
+</details>
+
+<hr>
+
+<h2 id="plugins">Plugins and credits</h2>
 
 These are the plugin declarations currently pinned in `application.yml`.
 
@@ -168,19 +214,23 @@ These are the plugin declarations currently pinned in `application.yml`.
 | LavaSrc | `4.8.3` | [topi314/LavaSrc](https://github.com/topi314/LavaSrc) | topi314 and contributors |
 | LavaSearch | `1.0.0` | [topi314/LavaSearch](https://github.com/topi314/LavaSearch) | topi314 and contributors |
 
-The YouTube plugin is downloaded from the Lavalink snapshot repository. The
-other plugins use their configured release repositories:
+<p>
+  <strong>Plugin repositories:</strong>
+  <a href="https://maven.lavalink.dev/releases">Lavalink releases</a>
+  &nbsp;|&nbsp;
+  <a href="https://maven.lavalink.dev/snapshots">Lavalink snapshots</a>
+  &nbsp;|&nbsp;
+  <a href="https://jitpack.io">JitPack</a>
+</p>
 
-- [Lavalink releases](https://maven.lavalink.dev/releases)
-- [Lavalink snapshots](https://maven.lavalink.dev/snapshots)
-- [JitPack](https://jitpack.io)
+Refer to each upstream repository for current licenses, release notes,
+compatibility requirements, and contribution credits.
 
-Please refer to each upstream repository for the current license, release
-notes, compatibility requirements, and contribution credits.
+<hr>
 
-## Remote cipher
+<h2 id="remote-cipher">Remote cipher</h2>
 
-The YouTube plugin is configured to use the following remote cipher service:
+The YouTube plugin uses this remote cipher service:
 
 ```yaml
 remoteCipher:
@@ -191,37 +241,60 @@ remoteCipher:
 This endpoint is external to this repository. Check its availability and
 terms before relying on it in production.
 
-## Updating plugin versions
+<hr>
+
+<h2 id="updating-plugins">Updating plugin versions</h2>
 
 Plugin versions are intentionally pinned. Lavalink's plugin configuration
 expects a concrete Maven version or snapshot identifier; it does not provide a
 reliable `latest` setting for automatically selecting the newest compatible
 plugin.
 
-Using dynamic values such as `latest`, `latest.release`, or `+` is not
-recommended because:
+Dynamic values such as `latest`, `latest.release`, or `+` are not recommended
+because:
 
-- a new release can introduce breaking changes;
-- a plugin may no longer support the installed Lavalink version;
-- snapshot builds can change without warning;
-- a restart could download different code from the same configuration;
-- failures become harder to reproduce.
+<ul>
+  <li>A new release can introduce breaking changes.</li>
+  <li>A plugin may no longer support the installed Lavalink version.</li>
+  <li>Snapshot builds can change without warning.</li>
+  <li>A restart could download different code from the same configuration.</li>
+  <li>Failures become harder to reproduce.</li>
+</ul>
 
-To update a plugin safely:
+<h3>Safe update process</h3>
 
-1. Open the plugin's upstream repository and Releases page.
-2. Check the release notes and required Lavalink version.
-3. Replace only the version in `application.yml`.
-4. Set `snapshot: true` only when using the snapshot repository.
-5. Start Lavalink and check the startup logs for plugin loading errors.
-6. Test searching and playback before using the update in production.
+<ol>
+  <li>Open the plugin's upstream repository and Releases page.</li>
+  <li>Check the release notes and required Lavalink version.</li>
+  <li>Replace only the version in <code>application.yml</code>.</li>
+  <li>Set <code>snapshot: true</code> only when using the snapshot repository.</li>
+  <li>Start Lavalink and check the startup logs for plugin loading errors.</li>
+  <li>Test searching and playback before using the update in production.</li>
+</ol>
 
-The YouTube plugin currently uses a pinned snapshot commit because YouTube
-source compatibility can change quickly. Leave it pinned unless you have
-tested a newer compatible version.
+The YouTube plugin uses a pinned snapshot commit because YouTube source
+compatibility can change quickly. Leave it pinned unless a newer compatible
+version has been tested.
 
-## Useful files
+<hr>
 
-- `Lavalink.jar`: Lavalink server binary
-- `application.yml`: server, source, plugin, OAuth, logging, and cipher settings
-- `README.md`: setup and configuration guide
+<h2 id="files">Repository files</h2>
+
+<table>
+  <tr>
+    <td><code>Lavalink.jar</code></td>
+    <td>Lavalink server binary</td>
+  </tr>
+  <tr>
+    <td><code>application.yml</code></td>
+    <td>Server, source, plugin, OAuth, logging, and cipher settings</td>
+  </tr>
+  <tr>
+    <td><code>README.md</code></td>
+    <td>Setup and configuration guide</td>
+  </tr>
+</table>
+
+<div align="center">
+  <sub>Configuration maintained for the Lavalink community.</sub>
+</div>
