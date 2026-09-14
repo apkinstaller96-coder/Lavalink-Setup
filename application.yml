@@ -154,11 +154,7 @@ plugins:
     clients:
       - WEB
       - TV
-      - TVHTML5_SIMPLY
       - ANDROID_VR
-      - MWEB
-      - WEBEMBEDDED
-      - ANDROID_MUSIC
     enabled: true
 
     oauth:
