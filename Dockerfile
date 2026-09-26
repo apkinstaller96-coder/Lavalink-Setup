@@ -1,5 +1,5 @@
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 COPY Lavalink.jar application.yml ./
-EXPOSE 80
+EXPOSE 8000
 CMD ["java", "-jar", "Lavalink.jar"]
