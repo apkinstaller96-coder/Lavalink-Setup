@@ -160,9 +160,9 @@ plugins:
     oauth:
       enabled: true
       # User setting: add the OAuth refresh token here when OAuth is used.
-      refreshToken:
+      refreshToken:1//06SCIO2IMw5SECgYIARAAGAYSNwF-L9IrF8oxzdqzo-kPs-WivrMp-9s-iRYp2367-FdvmKLCQbM1MHxz_Jrl4y6TNwiE6lwpoMQ
       # User setting: set true to skip OAuth initialization at startup.
-      skipInitialization: false
+      skipInitialization: true
 
     remoteCipher:
       url: https://cipher.kikkia.dev/
@@ -177,5 +177,5 @@ server:
   http2:
     enabled: false
   # User setting: change the port if another service uses port 80.
-  port: 80
+  port: 8080
     
